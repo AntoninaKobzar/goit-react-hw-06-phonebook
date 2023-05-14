@@ -1,44 +1,20 @@
 
-    import { nanoid } from 'nanoid';
-    import PropTypes from 'prop-types';
+
     import css from './ContactForm.module.css';
-    import { useState } from 'react';
+    import { useDispatch } from 'react-redux';
+    import { addContact } from 'redux/contactsSlice';
 
 
     
-const ContactForm = ({ addContact }) => {
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
+    const ContactForm = () => {
+    const dispatch = useDispatch();
 
-    const onInputChange = e => {
-    const { name, value } = e.target;
 
-    switch (name) {
-        case 'name':
-        setName(value);
-        break;
-
-        case 'number':
-        setNumber(value);
-        break;
-
-        default:
-        return;
-    }
-    };
-    
-    const handleSubmit = e => {
-    e.preventDefault();
-    const data = { id: nanoid(), name: name, number: number };
-    addContact(data);
-    reset();
+    const handleSubmit =({name,number},actions)=> {
+        dispatch(addContact(name, number));
+        actions.resetForm();
     };
 
-    const reset = () => {
-    setName('');
-    setNumber('');
-};
-        
         return (
             <form className={css.form} onSubmit={handleSubmit}>
                 <label>
@@ -51,8 +27,6 @@ const ContactForm = ({ addContact }) => {
                         title="Name may contain only letters, apostrophe, dash and spaces. 
                         For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
                         required
-                        value={name}
-                        onChange={onInputChange}
                     />
                 </label>
                 <label>
@@ -64,8 +38,6 @@ const ContactForm = ({ addContact }) => {
                         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                         required
-                        value={number}
-                        onChange={onInputChange}
                     />
                 </label>
                 <button type="submit" className={css.form__button}>Add contact</button>
@@ -73,9 +45,6 @@ const ContactForm = ({ addContact }) => {
             );
 }
 
-    ContactForm.propTypes = {
-        addContact:PropTypes.func.isRequired,
-    };
 
 
     export default ContactForm;
