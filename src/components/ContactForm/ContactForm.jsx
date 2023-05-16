@@ -16,7 +16,13 @@
     };
 
         return (
-            <form className={css.form} onSubmit={handleSubmit}>
+            
+            <form className={css.form}
+                initialValues={{
+        name: '',
+        number: '',
+      }}
+                onSubmit={handleSubmit}>
                 <label>
                     <p className={css.form__label}>Name</p>
                     <input
