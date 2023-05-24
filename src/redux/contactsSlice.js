@@ -1,11 +1,12 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 
-const contactsInitialState = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
+// const contactsInitialState = [
+//   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+//   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+//   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+//   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+// ];
+const contactsInitialState = [];
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -13,44 +14,21 @@ const contactsSlice = createSlice({
   reducers: {
     addContact: {
       reducer(state, action) {
-        // state.push(action, payload);
-        if (
-          state.contacts.find(
-            contact =>
-              contact.name.toLowerCase() === action.payload.name.toLowerCase()
-          )
-        ) {
-          return alert(`${action.payload.name} is already in contacts`);
-        } else if (
-          state.contacts.find(
-            contact => contact.number === action.payload.number
-          )
-        ) {
-          return alert(
-            `${action.payload.number} this number is already in your phonebook`
-          );
-        } else {
-          return { contacts: [action.payload, ...state.contacts] };
-        }
+        state.push(action.payload);
       },
-      prepare(name, number) {
+      prepare({ name, number }) {
         return {
           payload: {
-            name,
+            text: { name, number },
             id: nanoid(),
-            number,
           },
         };
       },
     },
     deleteContact(state, action) {
-      const index = state.contacts.findIndex(
-        task => task.id === action.payload
-      );
-      state.contacts.splice(index, 1);
+      return state.filter(contact => contact.id !== action.payload);
     },
   },
 });
-
 export const { addContact, deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
