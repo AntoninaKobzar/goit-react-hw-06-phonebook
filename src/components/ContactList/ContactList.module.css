@@ -8,8 +8,3 @@
     border: 1px dashed gray;
     border-radius: 3px;
 }
-.item{
-    display:flex;
-    justify-content: space-between;
-    text-decoration: none;
-}
