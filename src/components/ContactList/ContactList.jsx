@@ -13,7 +13,6 @@ const ContactList = () => {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
-  console.log(filteredContacts());
 
   return (
     <>
